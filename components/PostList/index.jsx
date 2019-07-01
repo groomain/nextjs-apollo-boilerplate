@@ -40,8 +40,7 @@ export const allPostsQueryVars = {
   first: 10,
 };
 
-export default function PostList(props) {
-  console.log(props);
+export default function PostList() {
   return (
     <Query query={allPostsQuery} variables={allPostsQueryVars}>
       {({ loading, error, data: { allPosts, _allPostsMeta }, fetchMore }) => {
