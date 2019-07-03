@@ -5,3 +5,4 @@ static/sw.js
 yarn.lock
 .idea
 .DS_Store
+.env

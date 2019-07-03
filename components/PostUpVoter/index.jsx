@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { ApolloConsumer } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -28,7 +29,7 @@ function upvotePost(votes, id, client) {
   });
 }
 
-export default function PostUpvoter({ votes, id }) {
+const PostUpVoter = ({ votes, id }) => {
   return (
     <ApolloConsumer>
       {(client) => (
@@ -60,4 +61,11 @@ export default function PostUpvoter({ votes, id }) {
       )}
     </ApolloConsumer>
   );
-}
+};
+
+PostUpVoter.propTypes = {
+  id: PropTypes.string.isRequired,
+  votes: PropTypes.number.isRequired,
+};
+
+export default PostUpVoter;

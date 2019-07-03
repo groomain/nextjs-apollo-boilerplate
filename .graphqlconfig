@@ -1,0 +1,22 @@
+{
+  "name": "Remote Schema",
+  "schemaPath": "remote-schema.graphql",
+  "extensions": {
+    "endpoints": {
+      "User endpoint": {
+        "url": "https://api.graph.cool/simple/v1/cj5geu3slxl7t0127y8sity9r",
+        "headers": {
+          "user-agent": "JS GraphQL"
+        },
+        "introspect": true
+      },
+      "List endpoint": {
+        "url": "https://api.graph.cool/simple/v1/cixmkt2ul01q00122mksg82pn",
+        "headers": {
+          "user-agent": "JS GraphQL"
+        },
+        "introspect": true
+      }
+    }
+  }
+}

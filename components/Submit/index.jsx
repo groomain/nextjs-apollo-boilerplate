@@ -41,7 +41,7 @@ function handleSubmit(event, client) {
   });
 }
 
-export default function Submit() {
+const Submit = () => {
   return (
     <ApolloConsumer>
       {(client) => (
@@ -70,4 +70,6 @@ export default function Submit() {
       )}
     </ApolloConsumer>
   );
-}
+};
+
+export default Submit;

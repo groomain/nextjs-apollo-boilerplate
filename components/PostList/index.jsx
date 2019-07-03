@@ -3,6 +3,7 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import PostUpvoter from '../PostUpVoter';
 import ErrorMessage from '../ErrorMessage';
+import { Link } from '../../routes';
 
 function loadMorePosts(allPosts, fetchMore) {
   fetchMore({
@@ -40,14 +41,16 @@ export const allPostsQueryVars = {
   first: 10,
 };
 
-export default function PostList() {
+const PostList = () => {
   return (
     <Query query={allPostsQuery} variables={allPostsQueryVars}>
       {({ loading, error, data: { allPosts, _allPostsMeta }, fetchMore }) => {
         if (error) return <ErrorMessage message="Error loading posts." />;
+
         if (loading) return <div>Loading</div>;
 
         const areMorePosts = allPosts.length < _allPostsMeta.count;
+
         return (
           <section>
             <ul>
@@ -55,7 +58,9 @@ export default function PostList() {
                 <li key={post.id}>
                   <div>
                     <span>{index + 1}. </span>
-                    <a href={post.url}>{post.title}</a>
+                    <Link route="post-modal" params={{ id: post.id }}>
+                      <a>{post.title}</a>
+                    </Link>
                     <PostUpvoter id={post.id} votes={post.votes} />
                   </div>
                 </li>
@@ -114,4 +119,6 @@ export default function PostList() {
       }}
     </Query>
   );
-}
+};
+
+export default PostList;

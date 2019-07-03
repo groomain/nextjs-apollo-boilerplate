@@ -1,6 +1,7 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 
-export default ({ children }) => (
+const App = ({ children }) => (
   <main>
     {children}
     <style jsx global>
@@ -44,3 +45,13 @@ export default ({ children }) => (
     </style>
   </main>
 );
+
+App.defaultProps = {
+  children: null,
+};
+
+App.propTypes = {
+  children: PropTypes.node,
+};
+
+export default App;
