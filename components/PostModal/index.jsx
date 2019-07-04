@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import ReactModal from 'react-modal';
+import { Button } from 'grommet';
 import ErrorMessage from '../ErrorMessage';
 import { Router } from '../../routes';
 
@@ -39,8 +40,9 @@ const PostModal = ({ id }) => {
       isOpen={showModal}
       contentLabel="Minimal Modal Example"
       onRequestClose={handleCloseModal}
+      style={{ zIndex: 10 }}
     >
-      <button onClick={handleCloseModal}>Close Modal</button>
+      <Button label="Close modal" onClick={handleCloseModal} />
       <Query query={postQuery} variables={{ id }}>
         {({ error, data }) => {
           if (!data || error) {

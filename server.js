@@ -1,7 +1,6 @@
 const express = require('express');
 const next = require('next');
 const LRUCache = require('lru-cache');
-const vhost = require('vhost');
 const routes = require('./routes');
 
 

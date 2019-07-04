@@ -2,7 +2,10 @@ import React, { useContext } from 'react';
 import { Mutation, ApolloContext } from 'react-apollo';
 import gql from 'graphql-tag';
 import cookie from 'cookie';
+import { Heading, Button, Box, TextInput } from 'grommet';
+import Link from 'next/dist/client/link';
 import redirect from '../../lib/redirect';
+import App from '../App';
 
 const CREATE_USER = gql`
   mutation Create(
@@ -79,40 +82,57 @@ const RegisterBox = () => {
                 <span key={i}>{message}</span>
               ))}
           </pre>
-          <input
-            name="firstName"
-            placeholder="first name"
-            ref={(node) => {
-              firstName = node;
-            }}
-          />
-          <br />
-          <input
-            name="lastname"
-            placeholder="last name"
-            ref={(node) => {
-              lastName = node;
-            }}
-          />
-          <br />
-          <input
-            name="email"
-            placeholder="Email"
-            ref={(node) => {
-              email = node;
-            }}
-          />
-          <br />
-          <input
-            name="password"
-            placeholder="Password"
-            ref={(node) => {
-              password = node;
-            }}
-            type="password"
-          />
-          <br />
-          <button>Register</button>
+          <Box align="center">
+            <Box width="medium">
+              <Heading level={3}>Register</Heading>
+              <Box margin={{ bottom: 'small' }}>
+                <TextInput
+                  name="firstName"
+                  placeholder="first name"
+                  ref={(node) => {
+                    firstName = node;
+                  }}
+                />
+              </Box>
+              <Box margin={{ bottom: 'small' }}>
+                <TextInput
+                  name="lastname"
+                  placeholder="last name"
+                  ref={(node) => {
+                    lastName = node;
+                  }}
+                />
+              </Box>
+              <Box margin={{ bottom: 'small' }}>
+                <TextInput
+                  name="email"
+                  placeholder="Email"
+                  ref={(node) => {
+                    email = node;
+                  }}
+                />
+              </Box>
+              <Box margin={{ bottom: 'small' }}>
+                <TextInput
+                  name="password"
+                  placeholder="Password"
+                  ref={(node) => {
+                    password = node;
+                  }}
+                  type="password"
+                />
+              </Box>
+              <Box margin={{ bottom: 'small' }}>
+                <Button label="Register" primary />
+              </Box>
+              <Box>
+                Already have an account?{' '}
+                <Link prefetch href="/signin">
+                  <a>Sign in</a>
+                </Link>
+              </Box>
+            </Box>
+          </Box>
         </form>
       )}
     </Mutation>

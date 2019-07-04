@@ -4,7 +4,11 @@ import { compose } from 'redux';
 import { Provider } from 'react-redux';
 import { ApolloProvider } from 'react-apollo';
 import withRedux from 'next-redux-wrapper';
+import NextSeo from 'next-seo';
+import { Grommet } from 'grommet';
+import theme from '../components/theme';
 import withApollo from '../lib/withApollo';
+import SEO from '../next-seo.config';
 import { initStore } from '../lib/store';
 
 class MyApp extends App {
@@ -15,7 +19,10 @@ class MyApp extends App {
       <Container>
         <ApolloProvider client={apolloClient}>
           <Provider store={store}>
-            <Component {...pageProps} />
+            <NextSeo config={SEO} />
+            <Grommet theme={theme}>
+              <Component {...pageProps} />
+            </Grommet>
           </Provider>
         </ApolloProvider>
       </Container>

@@ -1,11 +1,16 @@
 import React from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+import { Anchor, Box, Button } from 'grommet';
 import PostUpvoter from '../PostUpVoter';
 import ErrorMessage from '../ErrorMessage';
 import { Link } from '../../routes';
 
-function loadMorePosts(allPosts, fetchMore) {
+const List = (props) => <Box tag="ul" {...props} />;
+
+const ListItem = (props) => <Box direction="row" tag="li" {...props} />;
+
+const loadMorePosts = (allPosts, fetchMore) => {
   fetchMore({
     variables: {
       skip: allPosts.length,
@@ -20,7 +25,7 @@ function loadMorePosts(allPosts, fetchMore) {
       });
     },
   });
-}
+};
 
 export const allPostsQuery = gql`
   query allPosts($first: Int!, $skip: Int!) {
@@ -52,69 +57,38 @@ const PostList = () => {
         const areMorePosts = allPosts.length < _allPostsMeta.count;
 
         return (
-          <section>
-            <ul>
-              {allPosts.map((post, index) => (
-                <li key={post.id}>
-                  <div>
-                    <span>{index + 1}. </span>
+          <Box align="center">
+            <Box width="medium">
+              <List>
+                {allPosts.map((post, index) => (
+                  <ListItem
+                    key={post.id}
+                    margin={{ bottom: 'small' }}
+                    align="center"
+                  >
                     <Link route="post-modal" params={{ id: post.id }}>
-                      <a>{post.title}</a>
+                      <Anchor>
+                        <span>{index + 1}. </span>
+                        {post.title}
+                      </Anchor>
                     </Link>
-                    <PostUpvoter id={post.id} votes={post.votes} />
-                  </div>
-                </li>
-              ))}
-            </ul>
-            {areMorePosts ? (
-              <button onClick={() => loadMorePosts(allPosts, fetchMore)}>
-                {' '}
-                {loading ? 'Loading...' : 'Show More'}{' '}
-              </button>
-            ) : (
-              ''
-            )}
-            <style jsx>
-              {`
-                section {
-                  padding-bottom: 20px;
-                }
-                li {
-                  display: block;
-                  margin-bottom: 10px;
-                }
-                div {
-                  align-items: center;
-                  display: flex;
-                }
-                a {
-                  font-size: 14px;
-                  margin-right: 10px;
-                  text-decoration: none;
-                  padding-bottom: 0;
-                  border: 0;
-                }
-                span {
-                  font-size: 14px;
-                  margin-right: 5px;
-                }
-                ul {
-                  margin: 0;
-                  padding: 0;
-                }
-                button:before {
-                  align-self: center;
-                  border-style: solid;
-                  border-width: 6px 4px 0 4px;
-                  border-color: #ffffff transparent transparent transparent;
-                  content: '';
-                  height: 0;
-                  margin-right: 5px;
-                  width: 0;
-                }
-              `}
-            </style>
-          </section>
+                    <Box margin={{ left: 'xsmall' }} justify="center">
+                      <PostUpvoter id={post.id} votes={post.votes} />
+                    </Box>
+                  </ListItem>
+                ))}
+              </List>
+              {areMorePosts ? (
+                <Button
+                  primary
+                  label={loading ? 'Loading...' : 'Show More'}
+                  onClick={() => loadMorePosts(allPosts, fetchMore)}
+                />
+              ) : (
+                ''
+              )}
+            </Box>
+          </Box>
         );
       }}
     </Query>

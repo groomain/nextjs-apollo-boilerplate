@@ -1,6 +1,7 @@
 import React from 'react';
 import { ApolloConsumer } from 'react-apollo';
 import gql from 'graphql-tag';
+import { Form, Box, TextInput, Button, Heading } from 'grommet';
 import { allPostsQuery, allPostsQueryVars } from '../PostList';
 
 function handleSubmit(event, client) {
@@ -45,28 +46,35 @@ const Submit = () => {
   return (
     <ApolloConsumer>
       {(client) => (
-        <form onSubmit={(event) => handleSubmit(event, client)}>
-          <h1>Submit</h1>
-          <input placeholder="title" name="title" type="text" required />
-          <input placeholder="url" name="url" type="url" required />
-          <button type="submit">Submit</button>
-          <style jsx>
-            {`
-              form {
-                border-bottom: 1px solid #ececec;
-                padding-bottom: 20px;
-                margin-bottom: 20px;
-              }
-              h1 {
-                font-size: 20px;
-              }
-              input {
-                display: block;
-                margin-bottom: 10px;
-              }
-            `}
-          </style>
-        </form>
+        <Box align="center">
+          <Box margin={{ bottom: 'small' }}>
+            <Form onSubmit={(event) => handleSubmit(event, client)}>
+              <Heading level={1} size="medium">
+                Posts
+              </Heading>
+              <Box width="medium">
+                <Box margin={{ bottom: 'small' }}>
+                  <TextInput
+                    placeholder="title"
+                    name="title"
+                    type="text"
+                    required
+                  />
+                </Box>
+                <Box margin={{ bottom: 'small' }}>
+                  <TextInput
+                    margin={{ bottom: 'small' }}
+                    placeholder="url"
+                    name="url"
+                    type="url"
+                    required
+                  />
+                </Box>
+              </Box>
+              <Button primary label="Submit" />
+            </Form>
+          </Box>
+        </Box>
       )}
     </ApolloConsumer>
   );

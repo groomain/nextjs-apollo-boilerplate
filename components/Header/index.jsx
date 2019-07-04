@@ -5,6 +5,8 @@ import { withRouter } from 'next/router';
 import cookie from 'cookie';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
+import { Heading, Box, Button, Anchor } from 'grommet';
+import { Notification } from 'grommet-icons';
 import redirect from '../../lib/redirect';
 
 const logout = (apolloClient) => {
@@ -31,57 +33,53 @@ export const PROFILE_QUERY = gql`
 
 const Header = ({ router: { pathname } }) => {
   return (
-    <header>
+    <Box
+      tag="header"
+      direction="row"
+      align="center"
+      justify="between"
+      background="brand"
+      pad={{ left: 'medium', right: 'small', vertical: 'small' }}
+      elevation="medium"
+    >
+      <Heading level="3" margin="none">
+        My App
+      </Heading>
       <Link prefetch href="/">
-        <a className={pathname === '/' ? 'is-active' : ''}>Home</a>
+        <Anchor className={pathname === '/' ? 'is-active' : ''}>Home</Anchor>
       </Link>
       <Link prefetch href="/users">
-        <a className={pathname === '/users' ? 'is-active' : ''}>Users</a>
+        <Anchor className={pathname === '/users' ? 'is-active' : ''}>
+          Users
+        </Anchor>
       </Link>
       <Link prefetch href="/about">
-        <a className={pathname === '/about' ? 'is-active' : ''}>About</a>
+        <Anchor className={pathname === '/about' ? 'is-active' : ''}>
+          About
+        </Anchor>
       </Link>
       <Query query={PROFILE_QUERY}>
         {({ client, data: { user } }) => {
           if (user) {
-            return <a onClick={() => logout(client)}>Logout</a>;
+            return <Anchor onClick={() => logout(client)}>Logout</Anchor>;
           }
 
           return (
             <>
               <Link prefetch href="/create-account">
-                <a
-                  className={pathname === '/create-account' ? 'is-active' : ''}
-                >
-                  Create account
-                </a>
+                <Button primary size="big" label="Create account" />
               </Link>
               <Link prefetch href="/signin">
-                <a className={pathname === '/signin' ? 'is-active' : ''}>
+                <Anchor className={pathname === '/signin' ? 'is-active' : ''}>
                   Signin
-                </a>
+                </Anchor>
               </Link>
             </>
           );
         }}
       </Query>
-
-      <style jsx>
-        {`
-          header {
-            margin-bottom: 25px;
-          }
-          a {
-            font-size: 14px;
-            margin-right: 15px;
-            text-decoration: none;
-          }
-          .is-active {
-            text-decoration: underline;
-          }
-        `}
-      </style>
-    </header>
+      <Button icon={<Notification />} onClick={() => {}} />
+    </Box>
   );
 };
 

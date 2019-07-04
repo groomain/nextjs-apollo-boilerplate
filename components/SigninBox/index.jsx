@@ -3,6 +3,7 @@ import { ApolloContext, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import cookie from 'cookie';
 
+import { Paragraph, Form, Box, TextInput, Button, Heading } from 'grommet';
 import redirect from '../../lib/redirect';
 
 const SIGN_IN = gql`
@@ -47,39 +48,50 @@ const SigninBox = () => {
       }}
     >
       {(signinUser, { error }) => (
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
+        <Box align="center">
+          <Box width="medium">
+            <Form
+              onSubmit={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
 
-            signinUser({
-              variables: {
-                email: email.value,
-                password: password.value,
-              },
-            });
-          }}
-        >
-          {error && <p>No user found with that information.</p>}
-          <input
-            name="email"
-            placeholder="Email"
-            ref={(node) => {
-              email = node;
-            }}
-          />
-          <br />
-          <input
-            name="password"
-            placeholder="Password"
-            ref={(node) => {
-              password = node;
-            }}
-            type="password"
-          />
-          <br />
-          <button>Sign in</button>
-        </form>
+                signinUser({
+                  variables: {
+                    email: email.value,
+                    password: password.value,
+                  },
+                });
+              }}
+            >
+              <Heading level="3">Signin</Heading>
+              {error && (
+                <Paragraph>No user found with that information.</Paragraph>
+              )}
+              <Box margin={{ bottom: 'small' }}>
+                <TextInput
+                  name="email"
+                  placeholder="Email"
+                  ref={(node) => {
+                    email = node;
+                  }}
+                />
+              </Box>
+              <Box margin={{ bottom: 'small' }}>
+                <TextInput
+                  name="password"
+                  placeholder="Password"
+                  ref={(node) => {
+                    password = node;
+                  }}
+                  type="password"
+                />
+              </Box>
+              <Box margin={{ bottom: 'small' }}>
+                <Button type="submit" primary label="Sin in" />
+              </Box>
+            </Form>
+          </Box>
+        </Box>
       )}
     </Mutation>
   );
