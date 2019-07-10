@@ -1,11 +1,9 @@
 import React, { useContext } from 'react';
 import { Mutation, ApolloContext } from 'react-apollo';
 import gql from 'graphql-tag';
-import cookie from 'cookie';
 import { Heading, Button, Box, TextInput } from 'grommet';
 import Link from 'next/dist/client/link';
-import redirect from '../../lib/redirect';
-import App from '../App';
+import { signup } from '../../utils/withAuth';
 
 const CREATE_USER = gql`
   mutation Create(
@@ -39,15 +37,7 @@ const RegisterBox = () => {
     <Mutation
       mutation={CREATE_USER}
       onCompleted={(data) => {
-        // Store the token in cookie
-        document.cookie = cookie.serialize('token', data.signinUser.token, {
-          maxAge: 30 * 24 * 60 * 60, // 30 days
-        });
-        // Force a reload of all the current queries now that the user is
-        // logged in
-        client.resetStore().then(() => {
-          redirect({}, '/');
-        });
+        signup(client, data.signinUser.token);
       }}
       onError={(error) => {
         // If you want to send error to external service?
@@ -62,7 +52,7 @@ const RegisterBox = () => {
 
             create({
               variables: {
-                firstName: firstName.value,
+                name: firstName.value,
                 email: email.value,
                 password: password.value,
                 lastName: lastName.value,
@@ -84,7 +74,9 @@ const RegisterBox = () => {
           </pre>
           <Box align="center">
             <Box width="medium">
-              <Heading level={3}>Register</Heading>
+              <Heading level="1" margin={{ top: 'medium', bottom: 'medium' }}>
+                Register
+              </Heading>
               <Box margin={{ bottom: 'small' }}>
                 <TextInput
                   name="firstName"
@@ -123,7 +115,7 @@ const RegisterBox = () => {
                 />
               </Box>
               <Box margin={{ bottom: 'small' }}>
-                <Button label="Register" primary />
+                <Button type="submit" label="Register" primary />
               </Box>
               <Box>
                 Already have an account?{' '}

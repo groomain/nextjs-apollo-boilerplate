@@ -2,9 +2,9 @@ import React from 'react';
 import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Anchor, Box, Button } from 'grommet';
+import Link from 'next/link';
 import PostUpvoter from '../PostUpVoter';
 import ErrorMessage from '../ErrorMessage';
-import { Link } from '../../routes';
 
 const List = (props) => <Box tag="ul" {...props} />;
 
@@ -19,6 +19,7 @@ const loadMorePosts = (allPosts, fetchMore) => {
       if (!fetchMoreResult) {
         return previousResult;
       }
+
       return Object.assign({}, previousResult, {
         // Append the new posts results to the old one
         allPosts: [...previousResult.allPosts, ...fetchMoreResult.allPosts],
@@ -48,50 +49,57 @@ export const allPostsQueryVars = {
 
 const PostList = () => {
   return (
-    <Query query={allPostsQuery} variables={allPostsQueryVars}>
-      {({ loading, error, data: { allPosts, _allPostsMeta }, fetchMore }) => {
-        if (error) return <ErrorMessage message="Error loading posts." />;
+    <Box align="center">
+      <Box width="medium">
+        <Query query={allPostsQuery} variables={allPostsQueryVars}>
+          {({
+            loading,
+            error,
+            data: { allPosts, _allPostsMeta },
+            fetchMore,
+          }) => {
+            if (error) return <ErrorMessage message="Error loading posts." />;
 
-        if (loading) return <div>Loading</div>;
+            if (loading) return <div>Loading</div>;
 
-        const areMorePosts = allPosts.length < _allPostsMeta.count;
+            const areMorePosts = allPosts.length < _allPostsMeta.count;
 
-        return (
-          <Box align="center">
-            <Box width="medium">
-              <List>
-                {allPosts.map((post, index) => (
-                  <ListItem
-                    key={post.id}
-                    margin={{ bottom: 'small' }}
-                    align="center"
-                  >
-                    <Link route="post-modal" params={{ id: post.id }}>
-                      <Anchor>
-                        <span>{index + 1}. </span>
-                        {post.title}
-                      </Anchor>
-                    </Link>
-                    <Box margin={{ left: 'xsmall' }} justify="center">
-                      <PostUpvoter id={post.id} votes={post.votes} />
-                    </Box>
-                  </ListItem>
-                ))}
-              </List>
-              {areMorePosts ? (
-                <Button
-                  primary
-                  label={loading ? 'Loading...' : 'Show More'}
-                  onClick={() => loadMorePosts(allPosts, fetchMore)}
-                />
-              ) : (
-                ''
-              )}
-            </Box>
-          </Box>
-        );
-      }}
-    </Query>
+            return (
+              <>
+                <List>
+                  {allPosts.map((post, index) => (
+                    <ListItem
+                      key={post.id}
+                      margin={{ bottom: 'small' }}
+                      align="center"
+                    >
+                      <Link prefetch href="post/[id]" as={`post/${post.id}`}>
+                        <Anchor>
+                          <span>{index + 1}. </span>
+                          {post.title}
+                        </Anchor>
+                      </Link>
+                      <Box margin={{ left: 'xsmall' }} justify="center">
+                        <PostUpvoter id={post.id} votes={post.votes} />
+                      </Box>
+                    </ListItem>
+                  ))}
+                </List>
+                {areMorePosts ? (
+                  <Button
+                    primary
+                    label={loading ? 'Loading...' : 'Show More'}
+                    onClick={() => loadMorePosts(allPosts, fetchMore)}
+                  />
+                ) : (
+                  ''
+                )}
+              </>
+            );
+          }}
+        </Query>
+      </Box>
+    </Box>
   );
 };
 

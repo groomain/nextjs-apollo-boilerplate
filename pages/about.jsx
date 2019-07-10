@@ -1,20 +1,18 @@
 import React from 'react';
 import { withRouter } from 'next/router';
-import { Heading, Box, Paragraph } from 'grommet';
+import { Anchor, Heading, Box, Paragraph } from 'grommet';
+import Link from 'next/link';
 import App from '../components/App';
 import Header from '../components/Header';
 import UserProfil from '../components/UserProfil';
-import { Link } from '../routes';
 
 const About = ({ router: { asPath } }) => (
   <App>
     <Header />
-    {asPath === '/about/me' && <UserProfil />}
     <Box tag="article" align="center">
-      <Link route="about-me">
-        <a className={asPath === '/about/me' ? 'is-active' : ''}>About me</a>
-      </Link>
-      <Heading level={3}>The Idea Behind This Example</Heading>
+      <Heading level="1" margin={{ top: 'medium', bottom: 'medium' }}>
+        The Idea Behind This Example
+      </Heading>
       <Paragraph>
         <a href="https://www.apollographql.com/client/">Apollo</a> is a GraphQL
         client that allows you to easily query the exact data you need from a

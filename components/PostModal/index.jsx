@@ -4,8 +4,8 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import ReactModal from 'react-modal';
 import { Button } from 'grommet';
+import Router from 'next/router';
 import ErrorMessage from '../ErrorMessage';
-import { Router } from '../../routes';
 
 export const postQuery = gql`
   query Post($id: ID!) {
@@ -22,7 +22,7 @@ export const postQuery = gql`
 const PostModal = ({ id }) => {
   const [showModal, setShowModal] = useState(true);
 
-  const handleOpenModa = useCallback(() => {
+  const handleOpenModal = useCallback(() => {
     setShowModal(true);
   });
 
@@ -32,7 +32,7 @@ const PostModal = ({ id }) => {
   });
 
   useEffect(() => {
-    handleOpenModa();
+    handleOpenModal();
   }, [id]);
 
   return (

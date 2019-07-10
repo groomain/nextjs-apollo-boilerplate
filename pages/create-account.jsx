@@ -1,5 +1,4 @@
-import React from 'react';
-import Link from 'next/link';
+import { Component } from 'react';
 
 import redirect from '../lib/redirect';
 import checkLoggedIn from '../lib/checkLoggedIn';
@@ -8,11 +7,11 @@ import RegisterBox from '../components/RegisterBox';
 import App from '../components/App';
 import Header from '../components/Header';
 
-export default class CreateAccount extends React.Component {
+class CreateAccount extends Component {
   static async getInitialProps(context) {
     const { loggedInUser } = await checkLoggedIn(context.apolloClient);
 
-    if (loggedInUser.user) {
+    if (loggedInUser) {
       // Already signed in? No need to continue.
       // Throw them back to the main page
       redirect(context, '/');
@@ -30,3 +29,5 @@ export default class CreateAccount extends React.Component {
     );
   }
 }
+
+export default CreateAccount;

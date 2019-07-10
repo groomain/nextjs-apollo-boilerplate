@@ -49,7 +49,7 @@ const Submit = () => {
         <Box align="center">
           <Box margin={{ bottom: 'small' }}>
             <Form onSubmit={(event) => handleSubmit(event, client)}>
-              <Heading level={1} size="medium">
+              <Heading level="1" margin={{ top: 'medium', bottom: 'medium' }}>
                 Posts
               </Heading>
               <Box width="medium">
