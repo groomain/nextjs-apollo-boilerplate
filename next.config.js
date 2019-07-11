@@ -1,9 +1,10 @@
+const withPWA = require('next-pwa')
 require('dotenv-safe').config();
 
 const path = require('path')
 const Dotenv = require('dotenv-webpack')
 
-module.exports = {
+const nextConfig = {
   webpack: config => {
     config.plugins = config.plugins || []
     
@@ -19,4 +20,6 @@ module.exports = {
     
     return config
   }
-}
+};
+
+module.exports = withPWA(nextConfig);
