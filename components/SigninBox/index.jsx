@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { ApolloContext, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import { Paragraph, Box, Button, Heading } from 'grommet';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { login } from '../../utils/withAuth';
 import { CustomPasswordInput, CustomTextInput } from '../Form';
@@ -42,7 +42,7 @@ const SigninBox = () => {
         console.log(error);
       }}
     >
-      {(signinUser, { error }) => (
+      {(mutate, { error }) => (
         <Box align="center">
           <Box width="medium">
             <Formik
@@ -51,13 +51,21 @@ const SigninBox = () => {
                 password: '',
               }}
               validationSchema={SigninSchema}
-              onSubmit={({ email, password }) => {
-                signinUser({
+              onSubmit={({ email, password }, { setSubmitting }) => {
+                mutate({
                   variables: {
                     email,
                     password,
                   },
-                });
+                }).then(
+                  () => {
+                    setSubmitting(false);
+                  },
+                  (apolloError) => {
+                    console.log(apolloError);
+                    setSubmitting(false);
+                  }
+                );
               }}
               render={({ status, isSubmitting }) => (
                 <Form>

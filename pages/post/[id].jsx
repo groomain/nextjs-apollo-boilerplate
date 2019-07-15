@@ -5,8 +5,12 @@ import Submit from '../../components/Submit';
 import PostList from '../../components/PostList';
 import PostModal from '../../components/PostModal';
 
-const Index = ({ query }) => {
-  const { id } = query;
+const Post = ({ query }) => {
+  let id = null;
+
+  if (query) {
+    ({ id } = query);
+  }
 
   return (
     <App>
@@ -18,8 +22,8 @@ const Index = ({ query }) => {
   );
 };
 
-Index.getInitialProps = ({ query }) => {
+Post.getInitialProps = ({ query }) => {
   return { query };
 };
 
-export default Index;
+export default Post;

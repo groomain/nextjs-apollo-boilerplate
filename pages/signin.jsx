@@ -7,7 +7,7 @@ import SigninBox from '../components/SigninBox';
 import App from '../components/App';
 import Header from '../components/Header';
 
-export default class Signin extends React.Component {
+class Signin extends React.Component {
   static async getInitialProps(context) {
     const { loggedInUser } = await checkLoggedIn(context.apolloClient);
 
@@ -29,3 +29,5 @@ export default class Signin extends React.Component {
     );
   }
 }
+
+export default Signin;

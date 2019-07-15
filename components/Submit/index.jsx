@@ -1,29 +1,36 @@
 import React from 'react';
-import { ApolloConsumer } from 'react-apollo';
+import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
-import { Form, Box, TextInput, Button, Heading } from 'grommet';
+import { Box, Button, Heading, Paragraph } from 'grommet';
+import { Field, Form, Formik } from 'formik';
+import * as Yup from 'yup';
 import { allPostsQuery, allPostsQueryVars } from '../PostList';
+import { CustomTextInput } from '../Form';
 
-function handleSubmit(event, client) {
-  event.preventDefault();
-  const form = event.target;
-  const formData = new window.FormData(form);
-  const title = formData.get('title');
-  const url = formData.get('url');
-  form.reset();
+const schema = Yup.object().shape({
+  title: Yup.string().required('Required'),
+  url: Yup.string().required('Required'),
+});
 
-  client.mutate({
-    mutation: gql`
-      mutation createPost($title: String!, $url: String!) {
-        createPost(title: $title, url: $url) {
-          id
-          title
-          votes
-          url
-          createdAt
-        }
-      }
-    `,
+const initialValues = {
+  title: '',
+  url: '',
+};
+
+const CREATE_POST = gql`
+  mutation createPost($title: String!, $url: String!) {
+    createPost(title: $title, url: $url) {
+      id
+      title
+      votes
+      url
+      createdAt
+    }
+  }
+`;
+
+const handleSubmit = (mutate, { title, url }, { setSubmitting, resetForm }) => {
+  mutate({
     variables: { title, url },
     update: (proxy, { data: { createPost } }) => {
       const data = proxy.readQuery({
@@ -39,44 +46,79 @@ function handleSubmit(event, client) {
         variables: allPostsQueryVars,
       });
     },
-  });
-}
+    optimisticResponse: {
+      __typename: 'Mutation',
+      createPost: {
+        __typename: 'Post',
+        title,
+        url,
+      },
+    },
+  }).then(
+    () => {
+      resetForm(initialValues);
+      setSubmitting(false);
+    },
+    () => {
+      setSubmitting(false);
+    }
+  );
+};
 
 const Submit = () => {
   return (
-    <ApolloConsumer>
-      {(client) => (
-        <Box align="center">
-          <Box margin={{ bottom: 'small' }}>
-            <Form onSubmit={(event) => handleSubmit(event, client)}>
-              <Heading level="1" margin={{ top: 'medium', bottom: 'medium' }}>
-                Posts
-              </Heading>
-              <Box width="medium">
-                <Box margin={{ bottom: 'small' }}>
-                  <TextInput
-                    placeholder="title"
+    <Box align="center">
+      <Box width="medium" margin={{ bottom: 'small' }}>
+        <Mutation mutation={CREATE_POST}>
+          {(mutate, { error }) => (
+            <Formik
+              initialValues={initialValues}
+              validationSchema={schema}
+              onSubmit={(values, actions) =>
+                handleSubmit(mutate, values, actions)
+              }
+              render={({ isSubmitting }) => (
+                <Form>
+                  <Heading
+                    level="1"
+                    margin={{ top: 'medium', bottom: 'medium' }}
+                  >
+                    Add post
+                  </Heading>
+                  {error && (
+                    <Paragraph>No user found with that information.</Paragraph>
+                  )}
+                  <Field
                     name="title"
                     type="text"
-                    required
+                    htmlFor="create-post-title"
+                    component={CustomTextInput}
+                    placeholder="Title"
+                    value=""
                   />
-                </Box>
-                <Box margin={{ bottom: 'small' }}>
-                  <TextInput
-                    margin={{ bottom: 'small' }}
-                    placeholder="url"
+                  <Field
                     name="url"
-                    type="url"
-                    required
+                    type="text"
+                    htmlFor="create-post-url"
+                    component={CustomTextInput}
+                    placeholder="Password"
+                    value=""
                   />
-                </Box>
-              </Box>
-              <Button primary label="Submit" />
-            </Form>
-          </Box>
-        </Box>
-      )}
-    </ApolloConsumer>
+                  <Box margin={{ bottom: 'small' }}>
+                    <Button
+                      type="submit"
+                      primary
+                      label="Submit"
+                      disabled={isSubmitting}
+                    />
+                  </Box>
+                </Form>
+              )}
+            />
+          )}
+        </Mutation>
+      </Box>
+    </Box>
   );
 };
 

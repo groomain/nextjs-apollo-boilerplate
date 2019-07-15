@@ -6,9 +6,11 @@ import { Heading, Box, Button, Anchor } from 'grommet';
 import { compose } from 'recompose';
 import { ApolloContext } from 'react-apollo';
 import { logout, withAuthSync } from '../../utils/withAuth';
+import CachePersistorContext from '../CachePersistorContext';
 
 const Header = ({ loggedInUser, router: { pathname } }) => {
   const { client } = useContext(ApolloContext);
+  const persistor = useContext(CachePersistorContext);
 
   return (
     <Box
@@ -47,8 +49,8 @@ const Header = ({ loggedInUser, router: { pathname } }) => {
           </Anchor>
         </Link>
       </Box>
-      {loggedInUser ? (
-        <Anchor onClick={() => logout(client)}>Logout</Anchor>
+      {loggedInUser && client ? (
+        <Anchor onClick={() => logout(client, persistor)}>Logout</Anchor>
       ) : (
         <Box
           margin={{ left: 'auto' }}

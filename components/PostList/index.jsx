@@ -52,15 +52,19 @@ const PostList = () => {
     <Box align="center">
       <Box width="medium">
         <Query query={allPostsQuery} variables={allPostsQueryVars}>
-          {({
-            loading,
-            error,
-            data: { allPosts, _allPostsMeta },
-            fetchMore,
-          }) => {
-            if (error) return <ErrorMessage message="Error loading posts." />;
+          {({ loading, error, data, fetchMore }) => {
+            if (!data || error) {
+              return <ErrorMessage message="Error loading posts." />;
+            }
 
-            if (loading) return <div>Loading</div>;
+            if (loading) {
+              return <div>Loading</div>;
+            }
+
+            const { allPosts, _allPostsMeta } = data;
+
+            if (!allPosts)
+              return <ErrorMessage message="Error loading posts." />;
 
             const areMorePosts = allPosts.length < _allPostsMeta.count;
 

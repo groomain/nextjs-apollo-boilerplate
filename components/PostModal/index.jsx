@@ -20,6 +20,10 @@ export const postQuery = gql`
 `;
 
 const PostModal = ({ id }) => {
+  if (!id) {
+    return null;
+  }
+
   const [showModal, setShowModal] = useState(true);
 
   const handleOpenModal = useCallback(() => {

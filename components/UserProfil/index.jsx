@@ -1,7 +1,5 @@
 import React from 'react';
-import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
-import ErrorMessage from '../ErrorMessage';
 import { withAuthSync } from '../../utils/withAuth';
 
 export const userQuery = gql`
@@ -15,7 +13,6 @@ export const userQuery = gql`
 `;
 
 const UserProfil = ({ loggedInUser }) => {
-  console.log(loggedInUser);
   if (!loggedInUser) {
     return null;
   }

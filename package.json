@@ -8,6 +8,8 @@
   "dependencies": {
     "apollo-boost": "^0.4.3",
     "apollo-cache-inmemory": "^1.6.2",
+    "apollo-cache-instorage": "^0.2.4",
+    "apollo-cache-persist": "^0.1.1",
     "apollo-client": "^2.6.3",
     "apollo-client-preset": "^1.0.8",
     "apollo-link-context": "^1.0.18",
@@ -30,7 +32,7 @@
     "isomorphic-unfetch": "^3.0.0",
     "js-cookie": "^2.2.0",
     "lru-cache": "^5.1.1",
-    "next": "^9.0.1-canary.1",
+    "next": "^9.0.1",
     "next-cookies": "^1.1.2",
     "next-offline": "^4.0.2",
     "next-pwa": "^1.0.7",
@@ -59,6 +61,7 @@
     "@babel/node": "^7.4.5",
     "@babel/plugin-transform-runtime": "^7.4.4",
     "@babel/preset-env": "^7.4.5",
+    "babel-eslint": "^10.0.2",
     "babel-plugin-styled-components": "^1.10.6",
     "eslint": "^5.16.0",
     "eslint-config-airbnb": "^17.1.0",
@@ -75,10 +78,10 @@
     "start": "next start",
     "start:custom": "NODE_ENV=production node server.js",
     "now-build": "next build",
-    "lint": "eslint './pages/**/*.{js,jsx}' './components/**/*.{js,jsx}' './lib/**/*.{js,jsx}'",
+    "lint": "eslint './**/*.{js,jsx}' --fix",
     "lint:staged": "lint-staged",
     "prettier": "prettier --write",
-    "prettier:all": "prettier --write './pages/**/*.{js,jsx}' './components/**/*.{js,jsx}' './lib/**/*.{js,jsx}'",
+    "prettier:all": "prettier --write './**/*.{js,jsx}'",
     "fix": "yarn prettier:all && yarn lint --fix"
   },
   "browserslist": "> 0.25%, not dead"
