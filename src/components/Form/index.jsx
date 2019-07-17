@@ -29,8 +29,10 @@ export const CustomTextInput = ({
 };
 
 CustomTextInput.propTypes = {
-  form: PropTypes.shape({ touched: PropTypes.string, errors: PropTypes.string })
-    .isRequired,
+  form: PropTypes.shape({
+    touched: PropTypes.shape({}),
+    errors: PropTypes.shape({}),
+  }).isRequired,
   field: PropTypes.shape({ name: PropTypes.string }).isRequired,
   htmlFor: PropTypes.string,
   placeholder: PropTypes.string,
@@ -76,8 +78,10 @@ export const CustomPasswordInput = ({
 };
 
 CustomPasswordInput.propTypes = {
-  form: PropTypes.shape({ touched: PropTypes.string, errors: PropTypes.string })
-    .isRequired,
+  form: PropTypes.shape({
+    touched: PropTypes.shape({}),
+    errors: PropTypes.shape({}),
+  }).isRequired,
   field: PropTypes.shape({ name: PropTypes.string }).isRequired,
   htmlFor: PropTypes.string,
   placeholder: PropTypes.string,

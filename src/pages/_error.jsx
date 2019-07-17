@@ -17,7 +17,7 @@ const Error = ({ statusCode }) => {
 };
 
 Error.getInitialProps = ({ res: { statusCode } }) => {
-  return { statusCode };
+  return { statusCode, namespacesRequired: ['common'] };
 };
 
 Error.propTypes = {

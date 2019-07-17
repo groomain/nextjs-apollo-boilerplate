@@ -12,6 +12,7 @@ import withApollo from '../lib/withApollo';
 import SEO from '../next-seo.config';
 import { initStore } from '../lib/store';
 import initCachePersistor from '../lib/initCachePersistor';
+import { appWithTranslation } from '../lib/NextI18Next';
 
 class MyApp extends App {
   constructor(props) {
@@ -55,5 +56,6 @@ class MyApp extends App {
 
 export default compose(
   withApollo,
-  withRedux(initStore)
+  withRedux(initStore),
+  appWithTranslation
 )(MyApp);

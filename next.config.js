@@ -20,6 +20,12 @@ const nextConfig = {
 
     return config;
   },
+  pwa: {
+    dest: 'public',
+  },
+  experimental: {
+    publicDirectory: true,
+  }
 };
 
 module.exports = withPWA(nextConfig);

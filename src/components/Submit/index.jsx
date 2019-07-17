@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import { Box, Button, Heading, Paragraph } from 'grommet';
 import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
+import { withTranslation } from '../../lib/NextI18Next';
 import { ALL_POSTS_QUERY, allPostsQueryVars } from '../PostList';
 import { CustomTextInput } from '../Form';
 
@@ -65,7 +66,7 @@ const handleSubmit = (mutate, { title, url }, { setSubmitting, resetForm }) => {
   );
 };
 
-const Submit = () => {
+const Submit = ({ t }) => {
   return (
     <Box align="center">
       <Box width="medium" margin={{ bottom: 'small' }}>
@@ -83,7 +84,7 @@ const Submit = () => {
                     level="1"
                     margin={{ top: 'medium', bottom: 'medium' }}
                   >
-                    Add post
+                    {t('Submit post')}
                   </Heading>
                   {error && (
                     <Paragraph>No user found with that information.</Paragraph>
@@ -122,4 +123,4 @@ const Submit = () => {
   );
 };
 
-export default Submit;
+export default withTranslation()(Submit);
