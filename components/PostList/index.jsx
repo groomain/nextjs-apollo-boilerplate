@@ -28,7 +28,7 @@ const loadMorePosts = (allPosts, fetchMore) => {
   });
 };
 
-export const allPostsQuery = gql`
+export const ALL_POSTS_QUERY = gql`
   query allPosts($first: Int!, $skip: Int!) {
     allPosts(orderBy: createdAt_DESC, first: $first, skip: $skip) {
       id
@@ -51,7 +51,7 @@ const PostList = () => {
   return (
     <Box align="center">
       <Box width="medium">
-        <Query query={allPostsQuery} variables={allPostsQueryVars}>
+        <Query query={ALL_POSTS_QUERY} variables={allPostsQueryVars}>
           {({ loading, error, data, fetchMore }) => {
             if (!data || error) {
               return <ErrorMessage message="Error loading posts." />;

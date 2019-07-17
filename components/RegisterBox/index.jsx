@@ -7,7 +7,7 @@ import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import { signup } from '../../utils/withAuth';
 import { CustomPasswordInput, CustomTextInput } from '../Form';
-import { allPostsQuery, allPostsQueryVars } from '../PostList';
+import { ALL_POSTS_QUERY, allPostsQueryVars } from '../PostList';
 
 const CREATE_USER = gql`
   mutation Create(

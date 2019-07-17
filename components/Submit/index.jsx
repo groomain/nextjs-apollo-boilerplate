@@ -4,7 +4,7 @@ import gql from 'graphql-tag';
 import { Box, Button, Heading, Paragraph } from 'grommet';
 import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
-import { allPostsQuery, allPostsQueryVars } from '../PostList';
+import { ALL_POSTS_QUERY, allPostsQueryVars } from '../PostList';
 import { CustomTextInput } from '../Form';
 
 const schema = Yup.object().shape({
@@ -34,11 +34,11 @@ const handleSubmit = (mutate, { title, url }, { setSubmitting, resetForm }) => {
     variables: { title, url },
     update: (proxy, { data: { createPost } }) => {
       const data = proxy.readQuery({
-        query: allPostsQuery,
+        query: ALL_POSTS_QUERY,
         variables: allPostsQueryVars,
       });
       proxy.writeQuery({
-        query: allPostsQuery,
+        query: ALL_POSTS_QUERY,
         data: {
           ...data,
           allPosts: [createPost, ...data.allPosts],
